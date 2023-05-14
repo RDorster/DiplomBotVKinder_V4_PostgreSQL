@@ -5,10 +5,10 @@ from vk_api.utils import get_random_id
 
 from config import comunity_token, acces_token
 from core import VkTools
-from data_store import *
+from data_store import creating_database, insert_data_seen_users, get_all_seen_users
 from keyboard import keyboard
 
-import data_store
+# import data_store
 
 
 class BotInterface():
@@ -47,17 +47,13 @@ class BotInterface():
                     print(user)
 
                     # здесь логика для проверки бд
-                    # Проверка на наличие пользователей в базе данных
-
-                    # data_store.check(vk_id=user["id"])
-
-                    # check()
-                    # if user in data_store.user:
-                    #     print(f"{user} уже есть в базе данных")
+                    # Проверка наличия пользователя в БД
+                    get_all_seen_users()
+                    if user in get_all_seen_users():
+                        self.message_send(event.user_id, f"{user} уже есть в базе данных.")
                     # else:
-                    #     insert_data_seen_users()
-                        # users.append(seen_user)
-                    # print(f"{user} добавлен в базу данных")
+                    #     # Если пользователь отсутствует в БД, добавляем его
+                    #     insert_data_seen_users(vk_id=user["id"], offset=0)
 
                     photos_user = self.api.get_photos(user['id'])
 
@@ -73,7 +69,7 @@ class BotInterface():
                     self.message_send(event.user_id,
                                       f'Ссылка на страницу профиля в VK: https://vk.com/id{user["id"]}')
                     # здесь логика для добавления в бд
-                    data_store.insert_data_seen_users(vk_id=user["id"], offset=offset)
+                    # data_store.insert_data_seen_users(vk_id=user["id"], offset=offset)
                 elif command == 'cледующие':
                     continue
                 elif command == 'пока':

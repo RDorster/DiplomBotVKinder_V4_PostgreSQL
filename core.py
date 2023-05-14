@@ -4,6 +4,8 @@ import vk_api
 
 from config import acces_token
 
+from data_store import *
+
 
 class VkTools():
     def __init__(self, acces_token):

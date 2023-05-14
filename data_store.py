@@ -89,3 +89,13 @@ def insert_data_seen_users(vk_id, offset):
 #                     OFFSET '{offset}';"""
 #         )
 #         return cursor.fetchone()
+
+def get_all_seen_users():
+    # Выгрузка из таблицы просмотренных пользователей
+    connection = psycopg2.connect(database=db_name, user=user, password=password, host=host, port=5432)
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM seen_users")
+    rows = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    return rows
